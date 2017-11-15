@@ -1,10 +1,8 @@
+
 {
     "entry": {
         "jvm": "-Xms1G -Xmx1G",
-        "environment": {
-            "PATH": "/home/admin",
-            "DATAX_HOME": "/home/admin"
-        }
+        "environment": {}
     },
     "common": {
         "column": {
@@ -18,39 +16,45 @@
     },
     "core": {
         "dataXServer": {
-            "address": "http://100.69.171.116:7001/dsc-core",
+            "address": "http://localhost:7001/api",
             "timeout": 10000,
             "reportDataxLog": false,
             "reportPerfLog": false
         },
-        "channel": {
-            "class": "com.alibaba.datax.core.MemoryChannel",
-            "speed": 1000000,
-            "capacity": 128,
-            "queue": {
-                "class": "com.alibaba.datax.core.transport.channel.memory.DoubleQueue",
-                "timeOut": 30
+        "transport": {
+            "channel": {
+                "class": "com.alibaba.datax.core.transport.channel.memory.MemoryChannel",
+                "speed": {
+                    "byte": -1,
+                    "record": -1
+                },
+                "flowControlInterval": 20,
+                "capacity": 512,
+                "byteCapacity": 67108864
+            },
+            "exchanger": {
+                "class": "com.alibaba.datax.core.plugin.BufferedRecordExchanger",
+                "bufferSize": 32
             }
         },
         "container": {
             "job": {
+                "reportInterval": 10000
             },
             "taskGroup": {
+                "channel": 5
             },
-            "model": "master",
-        	"id": 1
+            "trace": {
+                "enable": "false"
+            }
+
         },
         "statistics": {
             "collector": {
                 "plugin": {
-                    "maxDirtyNumber": 1000
+                    "taskClass": "com.alibaba.datax.core.statistics.plugin.task.StdoutPluginCollector",
+                    "maxDirtyNumber": 10
                 }
-            }
-        },
-        "plugin": {
-            "exchanger": {
-                "class": "com.alibaba.datax.core.plugin.BufferedRecordExchanger",
-                "bufferSize": 32
             }
         }
     }

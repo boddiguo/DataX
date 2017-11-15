@@ -90,7 +90,7 @@ public class TaskGroupContainer extends AbstractContainer {
     }
 
     @Override
-    public void start() {
+    public String start() {
         try {
             /**
              * 状态check时间间隔，较短，可以把任务及时分发到对应channel中
@@ -271,7 +271,7 @@ public class TaskGroupContainer extends AbstractContainer {
             //6.最后还要汇报一次
             reportTaskGroupCommunication(lastTaskGroupContainerCommunication, taskCountInThisTaskGroup);
 
-
+            return null;
         } catch (Throwable e) {
             Communication nowTaskGroupContainerCommunication = this.containerCommunicator.collect();
 

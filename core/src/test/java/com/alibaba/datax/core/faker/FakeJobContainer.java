@@ -12,7 +12,8 @@ public class FakeJobContainer extends AbstractContainer {
 	}
 
 	@Override
-	public void start() {
+	public String start() {
 		System.out.println("Fake Job start ..");
+		return null;
 	}
 }

@@ -96,12 +96,6 @@
                     "warn": "Never use it in your real job."
                 },
                 "developer": "someBody,bug reported to : someBody@someSite"
-            },
-            "hbasebulkwriter2_11x":{
-                "name": "hbasebulkwriter2_11x",
-                "class": "com.alibaba.datax.plugin.writer.hbasebulkwriter2_11x.HBaseBulkWriter2_11x",
-                "description": "适用于: 生产环境. hbaseBulkLoad For hbase1.1.x",
-                "developer": "hbase"
             }
         },
         "transformer": {
@@ -148,7 +142,7 @@
                     }
                 },
                 "writer": {
-                    "name": "hbasebulkwriter2_11x",
+                    "name": "fakewriter",
                     "parameter": {
                         "column": [
                             {
@@ -160,8 +154,7 @@
                                 "name": "age"
                             }
                         ],
-                        "encode": "utf-8",
-                        "hbase-conf": "/home/hbase/hbase-conf.xml"
+                        "encode": "utf-8"
                     }
                 }
             }

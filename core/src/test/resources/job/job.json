@@ -1,27 +1,62 @@
 {
-    "job": {
-        "setting": {},
-        "content": [
+    "job" : {
+        "content" : [
             {
-                "reader": {
-                    "name": "fakereader",
-                    "parameter": {}
+                "reader" : {
+                    "name" : "mysqlreader",
+                    "parameter" : {
+                        "username" : "zhao",
+                        "connection" : [
+                            {
+                                "jdbcUrl" : [
+                                    "jdbc:mysql://10.18.19.43:3307/drmain"
+                                ],
+                                "splitPk" : "id",
+                                "querySql" : [
+                                    "select * from dr_doc where id<100"
+                                ]
+                            }
+                        ],
+                        "password" : "aVJ542rGqPtk4ol"
+                    }
                 },
-                "writer": {
-                    "name": "fakewriter",
-                    "parameter": {}
-                }
-            },
-            {
-                "reader": {
-                    "name": "fakereader",
-                    "parameter": {}
-                },
-                "writer": {
-                    "name": "fakewriter",
-                    "parameter": {}
+                "writer" : {
+                    "name" : "mysqlwriter",
+                    "parameter" : {
+                        "column" : [
+                            "id",
+                            "category",
+                            "type",
+                            "segment",
+                            "content_id",
+                            "version",
+                            "created"
+                        ],
+                        "password" : "123456",
+                        "preSql" : [
+                            ""
+                        ],
+                        "writeMode" : "insert",
+                        "username" : "root",
+                        "session" : [
+                            "set session sql_mode='ANSI'"
+                        ],
+                        "connection" : [
+                            {
+                                "jdbcUrl" : "jdbc:mysql://127.0.0.1:3306/canal_test",
+                                "table" : [
+                                    "dr_doc"
+                                ]
+                            }
+                        ]
+                    }
                 }
             }
-        ]
+        ],
+        "setting" : {
+            "speed" : {
+                "channel" : 10
+            }
+        }
     }
 }

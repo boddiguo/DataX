@@ -36,7 +36,7 @@ public class Engine {
     private static String RUNTIME_MODE;
 
     /* check job model (job/task) first */
-    public void start(Configuration allConf) {
+    public String start(Configuration allConf) {
 
         // 绑定column转换信息
         ColumnCast.bind(allConf);
@@ -89,7 +89,7 @@ public class Engine {
         //初始化PerfTrace
         PerfTrace perfTrace = PerfTrace.getInstance(isJob, instanceId, taskGroupId, priority, traceEnable);
         perfTrace.setJobInfo(jobInfoConfig,perfReportEnable,channelNumber);
-        container.start();
+        return container.start();
 
     }
 
@@ -196,6 +196,10 @@ public class Engine {
         }
 
         return -1;
+    }
+
+    public static void setRuntimeMode(String excuteMode) {
+        Engine.RUNTIME_MODE = excuteMode;
     }
 
     public static void main(String[] args) throws Exception {

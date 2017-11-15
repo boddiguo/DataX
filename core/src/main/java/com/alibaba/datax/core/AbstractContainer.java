@@ -30,6 +30,6 @@ public abstract class AbstractContainer {
         this.containerCommunicator = containerCommunicator;
     }
 
-    public abstract void start();
+    public abstract String start();
 
 }

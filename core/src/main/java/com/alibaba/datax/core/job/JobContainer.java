@@ -93,7 +93,7 @@ public class JobContainer extends AbstractContainer {
      * post以及destroy和statistics
      */
     @Override
-    public void start() {
+    public String start() {
         LOG.info("DataX jobContainer starts job.");
 
         boolean hasException = false;
@@ -175,10 +175,11 @@ public class JobContainer extends AbstractContainer {
                     }
 
                     LOG.info(PerfTrace.getInstance().summarizeNoException());
-                    this.logStatistics();
+                    return this.logStatistics();
                 }
             }
         }
+        return null;
     }
 
     private void preCheck() {
@@ -572,7 +573,7 @@ public class JobContainer extends AbstractContainer {
         }
     }
 
-    private void logStatistics() {
+    private String logStatistics() {
         long totalCosts = (this.endTimeStamp - this.startTimeStamp) / 1000;
         long transferCosts = (this.endTransferTimeStamp - this.startTransferTimeStamp) / 1000;
         if (0L == transferCosts) {
@@ -580,7 +581,7 @@ public class JobContainer extends AbstractContainer {
         }
 
         if (super.getContainerCommunicator() == null) {
-            return;
+            return null;
         }
 
         Communication communication = super.getContainerCommunicator().collect();
@@ -603,29 +604,29 @@ public class JobContainer extends AbstractContainer {
 
         super.getContainerCommunicator().report(reportCommunication);
 
+        String logStatistics = String.format(
+            "\n" + "%-26s: %-18s\n" + "%-26s: %-18s\n" + "%-26s: %19s\n"
+                + "%-26s: %19s\n" + "%-26s: %19s\n" + "%-26s: %19s\n"
+                + "%-26s: %19s\n",
+            "任务启动时刻",
+            dateFormat.format(startTimeStamp),
 
-        LOG.info(String.format(
-                "\n" + "%-26s: %-18s\n" + "%-26s: %-18s\n" + "%-26s: %19s\n"
-                        + "%-26s: %19s\n" + "%-26s: %19s\n" + "%-26s: %19s\n"
-                        + "%-26s: %19s\n",
-                "任务启动时刻",
-                dateFormat.format(startTimeStamp),
+            "任务结束时刻",
+            dateFormat.format(endTimeStamp),
 
-                "任务结束时刻",
-                dateFormat.format(endTimeStamp),
-
-                "任务总计耗时",
-                String.valueOf(totalCosts) + "s",
-                "任务平均流量",
-                StrUtil.stringify(byteSpeedPerSecond)
-                        + "/s",
-                "记录写入速度",
-                String.valueOf(recordSpeedPerSecond)
-                        + "rec/s", "读出记录总数",
-                String.valueOf(CommunicationTool.getTotalReadRecords(communication)),
-                "读写失败总数",
-                String.valueOf(CommunicationTool.getTotalErrorRecords(communication))
-        ));
+            "任务总计耗时",
+            String.valueOf(totalCosts) + "s",
+            "任务平均流量",
+            StrUtil.stringify(byteSpeedPerSecond)
+                + "/s",
+            "记录写入速度",
+            String.valueOf(recordSpeedPerSecond)
+                + "rec/s", "读出记录总数",
+            String.valueOf(CommunicationTool.getTotalReadRecords(communication)),
+            "读写失败总数",
+            String.valueOf(CommunicationTool.getTotalErrorRecords(communication))
+        );
+        LOG.info(logStatistics);
 
         if (communication.getLongCounter(CommunicationTool.TRANSFORMER_SUCCEED_RECORDS) > 0
                 || communication.getLongCounter(CommunicationTool.TRANSFORMER_FAILED_RECORDS) > 0
@@ -643,7 +644,7 @@ public class JobContainer extends AbstractContainer {
             ));
         }
 
-
+        return logStatistics;
     }
 
     /**

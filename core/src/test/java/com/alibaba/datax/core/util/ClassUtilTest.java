@@ -42,8 +42,9 @@ class DummyContainer extends AbstractContainer {
 	}
 
 	@Override
-	public void start() {
+	public String start() {
 		System.out.println(getConfiguration());
+		return null;
 	}
 }
 

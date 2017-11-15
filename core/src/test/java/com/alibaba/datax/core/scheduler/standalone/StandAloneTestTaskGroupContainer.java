@@ -12,12 +12,13 @@ public class StandAloneTestTaskGroupContainer extends TaskGroupContainer {
     }
 
     @Override
-    public void start() {
+    public String start() {
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println("start standAlone test task container");
+        return null;
     }
 }
