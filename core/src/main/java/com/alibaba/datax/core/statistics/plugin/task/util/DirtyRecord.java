@@ -48,6 +48,12 @@ public class DirtyRecord implements Record {
 	}
 
 	@Override
+	public void removeColumn(final int i) {
+		throw DataXException.asDataXException(FrameworkErrorCode.RUNTIME_ERROR,
+				"该方法不支持!");
+	}
+
+	@Override
 	public int getColumnNumber() {
 		throw DataXException.asDataXException(FrameworkErrorCode.RUNTIME_ERROR,
 				"该方法不支持!");

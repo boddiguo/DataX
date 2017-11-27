@@ -12,6 +12,8 @@ public interface Record {
 
 	public Column getColumn(int i);
 
+	void removeColumn(int i);
+
 	public String toString();
 
 	public int getColumnNumber();

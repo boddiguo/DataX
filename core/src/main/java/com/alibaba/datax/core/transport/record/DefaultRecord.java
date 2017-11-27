@@ -62,6 +62,21 @@ public class DefaultRecord implements Record {
 	}
 
 	@Override
+	public void removeColumn(int i) {
+		if (i < 0) {
+			throw DataXException.asDataXException(FrameworkErrorCode.ARGUMENT_ERROR,
+					"can't remove the column of index lt 0 ");
+		}
+		if (i >= columns.size()) {
+			throw DataXException.asDataXException(FrameworkErrorCode.ARGUMENT_ERROR,
+					"can't remove the column of index gt the size");
+		}
+
+		this.columns.remove(i);
+	}
+
+
+	@Override
 	public String toString() {
 		Map<String, Object> json = new HashMap<String, Object>();
 		json.put("size", this.getColumnNumber());

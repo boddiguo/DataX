@@ -27,6 +27,11 @@ public class TerminateRecord implements Record {
 	}
 
 	@Override
+	public void removeColumn(final int i) {
+
+	}
+
+	@Override
 	public int getColumnNumber() {
 		return 0;
 	}
