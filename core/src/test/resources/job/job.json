@@ -20,37 +20,27 @@
                         "password" : "aVJ542rGqPtk4ol"
                     }
                 },
-                "writer" : {
-                    "name" : "mysqlwriter",
-                    "parameter" : {
-                        "column" : [
-                            "id",
-                            "category",
-                            "type",
-                            "segment",
-                            "content_id",
-                            "version",
-                            "created"
-                        ],
-                        "password" : "123456",
-                        "preSql" : [
-                            ""
-                        ],
-                        "writeMode" : "insert",
-                        "username" : "root",
-                        "session" : [
-                            "set session sql_mode='ANSI'"
-                        ],
-                        "connection" : [
-                            {
-                                "jdbcUrl" : "jdbc:mysql://127.0.0.1:3306/canal_test",
-                                "table" : [
-                                    "dr_doc"
-                                ]
-                            }
-                        ]
+                "writer": {
+                    "name": "txtfilewriter",
+                    "parameter": {
+                        "path": "/Users/guoyubo/result",
+                        "fileName": "test",
+                        "writeMode": "truncate",
+                        "dateFormat": "yyyy-MM-dd"
                     }
-                }
+                },
+                "transformer": [
+                    {
+                        "name": "dx_groovy",
+                        "parameter":
+                        {
+                            "code": "JSONObject jsonObject = new JSONObject();\nJSONObject registerJsonObject = new JSONObject();\nregisterJsonObject.put(\"category\", record.getColumn(1).getRawData());\nregisterJsonObject.put(\"type\", record.getColumn(2).getRawData());\njsonObject.put(\"newRegisterParam\", registerJsonObject);\nSystem.out.println(\"transformation:\" +jsonObject.toJSONString());\nrecord.addColumn(new StringColumn(jsonObject.toJSONString()));\nrecord.removeColumn(4);\nreturn record;",
+                            "extraPackage":[
+                                "import com.alibaba.fastjson.JSONObject;"
+                            ]
+                        }
+                    }
+                ]
             }
         ],
         "setting" : {

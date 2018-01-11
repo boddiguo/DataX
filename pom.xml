@@ -13,6 +13,8 @@
         </dependency>
     </dependencies>
 
+
+
     <name>datax-all</name>
     <packaging>pom</packaging>
 
@@ -89,6 +91,10 @@
         <module>plugin-unstructured-storage-util</module>
         <!-- developing module -->
         <module>hbasewriter</module>
+
+        <module>kafkawriter</module>
+
+
   </modules>
 
     <dependencyManagement>

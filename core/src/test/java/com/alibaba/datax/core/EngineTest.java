@@ -32,7 +32,7 @@ public class EngineTest extends CaseInitializer {
 				.getFile();
 
 		this.configuration = ConfigParser.parse(path + File.separator
-				+ "job" + File.separator + "job.json");
+				+ "job" + File.separator + "job3.json");
 		LoadUtil.bind(this.configuration);
 	}
 
@@ -50,7 +50,7 @@ public class EngineTest extends CaseInitializer {
 		String path = EngineTest.class.getClassLoader().getResource(".")
 									  .getFile();
 
-		String jobFile = path + File.separator + "job" + File.separator + "job.json";
+		String jobFile = path + File.separator + "job" + File.separator + "job3.json";
 
 		String[] args = { "-job", jobFile, "-mode", "standalone", "-jobid", "0" };
 

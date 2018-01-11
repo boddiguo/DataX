@@ -1,0 +1,74 @@
+{
+    "job" : {
+        "content" : [
+            {
+                "reader" : {
+                    "name" : "oraclereader",
+                    "parameter" : {
+                        "username" : "sl_main",
+                        "connection" : [
+                            {
+                                "jdbcUrl" : [
+                                    "jdbc:oracle:thin:@10.18.19.33:1521:dbdev2"
+                                ],
+                                "splitPk" : "id",
+                                "querySql" : [
+                                    "select a.name,'0:0:0:0:0:0:0:1' client_ip, '10.9.24.25' server_ip,  'API_LENDER_REGISTRATION' aud_action, 'Mainapp' aud_application,  a.create_d aud_date, a.cellphone,a.email a_email,a.REFERER_ID,b.NAME b_name from SL$actor a left join SL$actor b on a.REFERER_ID =b.id where a.id <100000"
+                                ]
+                            }
+                        ],
+                        "password" : "sl_main"
+                    }
+                },
+                "writer" : {
+                    "name" : "mysqlwriter",
+                    "parameter" : {
+                        "column" : [
+                            "AUD_USER",
+                            "AUD_CLIENT_IP",
+                            "AUD_SERVER_IP",
+                            "AUD_ACTION",
+                            "AUD_APPLICATION",
+                            "AUD_DATE",
+                            "AUD_RESOURCE"
+                        ],
+                        "preSql" : [
+                            ""
+                        ],
+                        "writeMode" : "insert",
+                        "username" : "zhao",
+                        "password" : "aVJ542rGqPtk4ol",
+                        "session" : [
+                            "set session sql_mode='ANSI'"
+                        ],
+                        "connection" : [
+                            {
+                                "jdbcUrl" : "jdbc:mysql://10.18.19.43:3308/audit_log",
+                                "table" : [
+                                    "audit_trail"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "transformer": [
+                    {
+                        "name": "dx_groovy",
+                        "parameter":
+                        {
+                            "code": " JSONObject jsonObject = new JSONObject();    JSONObject registerJsonObject = new JSONObject();    registerJsonObject.put(\"regPhone\", record.getColumn(6).getRawData());    registerJsonObject.put(\"email\", record.getColumn(7).getRawData());    registerJsonObject.put(\"referralId\", record.getColumn(8).getRawData());    registerJsonObject.put(\"referralName\", record.getColumn(9).getRawData());    jsonObject.put(\"newRegisterParam\", registerJsonObject);   record.removeColumn(6);    record.removeColumn(6);    record.removeColumn(6);    record.removeColumn(6);  record.addColumn(new StringColumn(jsonObject.toJSONString()));      return record;",
+                            "extraPackage":[
+                                "import com.alibaba.fastjson.JSONObject;"
+                            ]
+                        }
+                    }
+                ]
+            }
+        ],
+        "setting" : {
+            "speed" : {
+                "channel" : 10
+            }
+        }
+    }
+}
